@@ -1,0 +1,29 @@
+/* @custom-selector :--nombreDelSelector .elemento > .hijo, .elemento2 > .hijo; */
+@custom-selector :--checkeable .checkbox-label, .radio-label;
+@custom-selector :--hightlight :hover, :active;
+
+:--checkeable {
+  cursor: pointer;
+  user-select: none;
+  padding: 3px 7px;
+  border: 1px solid color(red b(10%));
+  border-bottom: 3px solid red;
+  color: gray(50);
+  font-size: 12px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  display: inline-block;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+:--checkeable:--hightlight {
+  background:red;
+  color: white;
+}
+
+.checkbox:checked + .primaryPlaylist-list {
+  display: none;
+}

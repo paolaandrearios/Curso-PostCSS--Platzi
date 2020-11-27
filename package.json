@@ -1,0 +1,29 @@
+{
+  "name": "curso-postcss",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "PaolaRios",
+  "license": "ISC",
+  "devDependencies": {
+    "postcss": "^8.1.7",
+    "postcss-apply": "^0.12.0",
+    "postcss-cli": "^8.3.0",
+    "postcss-custom-media": "^7.0.8",
+    "postcss-custom-selectors": "^5.1.2",
+    "postcss-font-magician": "^3.0.0",
+    "postcss-nesting": "^7.0.1",
+    "postcss-preset-env": "^6.7.0"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.0.2",
+    "cssnano": "^4.1.10",
+    "postcss-color-function": "^4.1.0",
+    "postcss-color-gray": "^5.0.0",
+    "postcss-import": "^13.0.0",
+    "stylelint": "^13.8.0"
+  }
+}
