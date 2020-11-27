@@ -1,0 +1,750 @@
+/*Curso de PostCSS
+
+
+¿Qué es PostCSS?
+
+Es una herramienta para manipular archivos CSS usando JavaScript.
+
+Instalación y uso del cliente de PostCSS
+Puedes usar PostCSS diferentes formas, por ejemplo con webpack, gulp, etc. En esta clase vamos a instalar PostCSS usando el cliente de PostCSS.
+
+Para instalar PostCSS primero debes tener instalado node.js en tu equipo porque vamos a estar trabajando con NPM.
+
+Instalación
+(*) Repositorio de curso PostCSS: https://github.com/LeonidasEsteban/platzi-video-postcss
+
+1. Requisitos:
+
+Tener instalado NodeJS
+2. Para empezar debemos crear un archivo package.json inicial rápido:
+
+  npm init -y
+3. Ahora tenemos que instalar el postcss-cli en el entorno de trabajo y no global.
+
+  npm install postcss-cli --save-dev
+4. Para ejecutar el comando en el entorno de trabajo ejecutamos:
+
+npx postcss-cli --version
+(*) Documentación PostCSS CLI: https://github.com/postcss/postcss-cli
+
+-------------------------------
+Para ver el repositorio de PostCSS
+
+https://github.com/postcss/postcss-cli
+
+Comandos para la terminal:
+
+Instalar dependencia PostCSS
+npm install postcss-cli --save
+
+Relacionar el CSS que vamos desarrollar con el de producción
+npx postcss src/css/home.css -o dist/css/home.css
+----------------------
+Transformar Estilos
+Los comandos del PostCSS se encuentran en el Repositorio Oficial
+
+1. Para transformar un archivo en ser ejecuta el siguiente comando:
+
+npx postcss src/css/home.css -o dist/css/home.css
+La primera ruta indica el archivo base en PostCSS
+
+-o indica la salida
+
+La segunda ruta es donde se guardara el archivo transformado
+
+2. Transformar un ves que se realice un cambio:
+
+  npx postcss src/css/home.css -o dist/css/home.css -w
+[ -w | --watch] revisa los cambios
+3. Uso de Plugins de PostCSS:
+
+  npx postcss src/css/home.css -o dist/css/home.css -w -u
+[ -u | --use] uso de plugins de PostCSS
+4. Cambiar la ruta en nuestro index.html al archivo transformado.
+
+  <link rel="stylesheet" href="dist/css/home.css" />
+
+
+https://lenguajejs.com/npm/administracion/scripts-de-npm/
+https://desarrolloweb.com/home/postcss
+
+------------------------------------------------
+Instalando y usando plugins en PostCSS
+Todo lo que vamos a hacer con PostCSS probablemente sea instalar plugins, es cierto que puedes crear nuevos plugins y vamos a ver como se hace, pero es posible que lo que quieres hacer ya este hecho, para revisar si ya existe puedes visitar la pagina www.postcss.parts.
+
+https://caniuse.com/  página para verificar la compatibilidad de los navegadores con las propiedades y asi ver si es necesario el uso de prefijos.
+
+
+npx postcss src/css/home.css -o dist/css/home.css -w -u autoprefixer
+
+npx postcss: linea de comando para llamar la funcionalidad de postcss
+src/css/home.css: Archivo de entrada de postcss (entry point)
+-o (–output): Flag usado para decirles postcss a donde enviar el archivo transformado
+dist/css/home.css: Archivo final que entrega postcss(output). si no están creadas las carpetas, las crea.
+-w (–watch): Flag usado para decirle a postcss que se quede escuchando los cambios en los archivos
+-u(–use): Flag usado para decirle a postcss que plugin vamos usar.
+autoprefixer: Plugin mas usado en postcss. Usado para agregar prefijos para algunas reglas de css que soportan los navegadores antiguos pero con prefijos.
+----------------------------
+
+Plugins
+Para ver pulgins que ya existen puedes visitar la pagina www.postcss.parts
+
+1. Instalaremos el plugin mas utlizado autoprefixer:
+
+  npm install --save autoprefixer
+2. Para ejecutar el plugin:
+
+  npx postcss src/css/home.css -o dist/css/home.css -w -u autoprefixer 
+3. Archivo de Configuración
+Ahora para tener un control de los plugins crearemos un archivo de configuración llamado: postcss.config.js
+
+  module.exports = {
+      plugins: [
+          require("autoprefixer")({
+              grid:true
+          })
+      ]
+  }
+Para este plugin las opciones de configuración son las siguientes: opciones Autoprefixer
+
+y finalmente para ejecutar:
+
+  npx postcss src/css/home.css -o dist/css/home.css -w 
+(*) Para deshabilitar el autoprefixer en cierto estilos podemos aplicar lo siguiente:
+
+/* autoprefixer: off */
+
+Ejemplo:
+
+  a {
+    transition: 1s; /*autoprefixer actua*/
+  }
+
+  b {
+    /* autoprefixer: off */
+    transition: 1s; /*autoprefixer ignora*/
+  }
+
+/*  -----------------------
+  El creador de CSSNext ha anunciado que ya no va a seguir con el desarrollo del plugin y ahora se encuentra obsoleto.
+
+https://moox.io/blog/deprecating-cssnext/
+
+Recomienda usar postcss-preset-env. en su lugar.
+
+Entiendo que para usar este nuevo plugin la única diferencia para el resto del curso sería instalar el plugin y agregarlo al postcss.config.js?
+
+module.exports = {
+  plugins: [
+    require("postcss-preset-env.")
+  ]
+}
+
+https://preset-env.cssdb.org/
+
+---------------------------------------------------------------------------------------
+CSS Next Obsoleto ??
+Jose
+jsechirinos
+CSS Next Obsoleto
+Entonces que pasara?
+
+Existe alternativas?.
+
+Al cabo que ni queria
+
+Y muchas preguntas me surgieron pero la causa es muy interesante.
+
+El motivo:
+El colaborador Principal MoOx nos explica porque se dejo el proyecto.
+
+El colaborador principal practicamente se canso del proyecto y la visión de PostCSS.
+
+Trato de dejar el proyecto a otros colaboradores, ha pedido ayuda por twitter pero no respondieron.
+
+Pero un colaborador activo hizo un fork y comenzo postcss-preset-env y posiblemente mejor que cssnext.
+
+Es en serio?
+Si, puedes ver el post completo:
+Deprecating-cssnext
+
+Cómo Migrar a postcss-preset-env ?
+1. Primero instalaremos el postcss-cli en el entorno de trabajo y no global.
+
+  npm install postcss-cli --save-dev
+2… Para ejecutar el comando en el entorno de trabajo ejecutamos:
+
+npx postcss-cli --version
+(*) Documentación PostCSS CLI: https://github.com/postcss/postcss-cli
+
+3. Instalar postcss-preset-env
+
+  npm install postcss-preset-env --save-dev
+Por defecto tendremos algunos plugins:
+
+autoprefixer
+insertBefore / insertAfter
+browers
+ver mas…
+4. Creamos el Archivo de Configuración
+postcss.config.js y agregamos:
+
+  module.exports = {
+      plugins: [
+          require("postcss-preset-env")({
+            autoprefixer: {
+              grid: true
+            },
+            browsers: [
+              "last 1 version",
+              "> 1%",
+              "not dead"
+            ],
+            stage: 1,
+            features: {
+                'nesting-rules': true
+            }
+          })
+      ]
+  }
+Esta configuración nos ayudara para continuar elcurso de Curso de PostCSS.
+
+Puedes probar más: Opciones postcss-preset-env
+
+5. Ejecutamos:
+
+  npx postcss src/css/home.css -o dist/css/home.css -w 
+Sobre los comandos:
+
+La primera ruta indica el archivo base en PostCSS
+
+-o indica la salida
+
+La segunda ruta es donde se guardara el archivo transformado
+
+[ -w | --watch] revisa los cambios.
+
+Suerte
+Espero que puedas descubrir mucho más de postcss-preset-env y implementarlo en tus proyectos.
+
+5
+hace 2 años
+Arquitectura Frontend
+
+Escribe tu comentario
+Ordenar por:
+jsechirinos
+jsechirinos
+6890 Puntos
+2 años
+Usar @apply
+Este feacture ya no sera soportado, pero para fines de aprendizaje podemos incluirlo tambien:
+
+1. Instalar
+
+	npm install postcss-apply --save-dev
+2. Configurar el postcss.config.js:
+
+module.exports = {
+        plugins: [
+            //added
+            require("postcss-apply"),
+            require("postcss-preset-env")({
+              autoprefixer: {
+                grid: true
+              },
+              browsers: [
+                "last 2 version",// soporte
+                "> 1%",
+                "not dead"
+              ],
+              stage: 3, //usar los ultimos feactures de css
+              features: {
+                  'nesting-rules': true
+              }
+            })
+        ]
+    }
+Suerte…!!
+
+Responder
+jsechirinos
+jsechirinos
+6890 Puntos
+2 años
+Usar los ultimos feactures
+Solo tenemos que configurar:
+
+module.exports = {
+      plugins: [
+          require("postcss-preset-env")({
+            autoprefixer: {
+              grid: true
+            },
+            browsers: [
+              "last 2 version", // para soporte estandar
+              "> 1%",
+              "not dead"
+            ],
+            stage: 3, //usar los ultimos feactures de css
+            features: {
+                'nesting-rules': true
+            }
+          })
+      ]
+  }
+
+-----------------------------------------------------------------------------------
+
+Vamos a entrar a mi parte favorita de este curso y la razón más importante para incluir PostCSS + CSSNext a tu Stack.
+
+CSS ya no es un conjunto de propiedades para crear nuestros estilos, ya no es más un paquete que recibe un único nombre y se optó por algo mucho mejor para que estas nuevas características sean adoptadas por los navegadores más rápidamente, a estos los llamamos módulos.
+
+Una ventaja de los módulos es que no necesariamente tienen que estar completos para ser implementados en el browser, pueden ir por niveles de la especificación y así garantizar constantes mejoras y nuevas características.
+
+Te haré un resumen de los módulos a tratar en este curso y que gracias a CSSNext podemos hacerlo compatibles hoy mismo.
+
+CSS Custom Properties for Cascading Variables Module Level 1
+Esta es una característica que nos permitirá traer a CSS algo que extraños mucho de los lenguaje de programación, las variables. Así podemos guardar por ejemplo el color hexadecimal preciso que necesitamos y darle un nombre que recordemos como –elVerdePerfecto.
+https://www.w3.org/TR/css-variables
+
+Media Queries Level 4
+Los media queries son nuestros mejores amigos para cambiar el CSS de algunos elementos dependiendo de las condiciones del navegador, es decir, en Responsive Design. Ahora podremos nombrar un media query como si fuera una variable para ser más fácil de reutilizar y rangos de media queries para una mejor sintaxis.
+https://drafts.csswg.org/mediaqueries/
+
+CSS Images Module Level 3
+Con image-set() vamos a poder elegir una determinada image de background dependiendo de la densidad de pixel que tenga el monitor
+https://drafts.csswg.org/css-images-3/#image-set-notation
+
+CSS Color Module Level 4
+Ya conocemos los hexadecimales, rgb() rgba() y ahora con la función color() vamos a poder seguir creando variaciones a la forma de asignar colores.
+https://drafts.csswg.org/css-color/#modifying-colors
+
+CSS Fonts Module Level 4
+La forma de agregar tipografias también viene con mejoras y mi favorita se llama “System UI”. Con System UI podemos asignar un fallback que tomará la fuente predefinida de tu sistema operativo, en el caso de mac "San Francisco"
+https://drafts.csswg.org/css-fonts-4/#valdef-font-family-system-ui
+
+CSS Extensions - Custom Selectors
+CSS quiere permitirte agrupar un selector o conjunto de selectores en algo más fácil de recordar como es el caso de las variables, estas se podrán anidar
+
+Selectors Level 4
+Aprenderemos a usar psedu clases como :any-link() :not() :matches()
+https://drafts.csswg.org/selectors-4/#matches
+
+Nesting
+Este es mi favorito, es una propuesta que nos permitirá usar mi cualidad favorita de los preprocesadores, evitar repetir un selector previamente escrito, es dificil de explicar así que dejaré un pequeño ejemplo
+
+CSS actual
+
+.mi .selector .css {
+	color: orange;
+}
+CSS Nesting
+
+.mi  {
+	color: red;
+	& .selector {
+		color: blue;
+		& .css {
+			color: orange;
+		}
+	}
+}
+
+Mientras que con nuestros selectores tradicionales tenemos que escribir en profundidad tanto como sea necesario con nesting (indentado en español) vamos a poder escribir los selectores una sola vez e ir agregándoles estilos independientemente
+
+http://tabatkins.github.io/specs/css-nesting/
+
+El conjunto de todo esto nos da un mejor CSS, uno que día a día se irá agregando en los navegadores y hará que no sea necesario hacerlo compatible con cssnext, cuando ese día llegue solo tienes que desactivarlo y como verás en las próximas clases podrás hacerlo independientemente por cada característica.
+
+Ahora que sabes que es una buena idea escribir código que en un futuro será el estándar continúa con el curso que espero te deje impresionado clase a clase.
+-------------------------------------------------------------------------
+
+CSS Variables
+Las variables en CSS se pueden definir con 2 guiones medios (–) --variable:"contenido de la variable" y usarse con la palabra reservada var, de la siguiente manera propiedad:var(--variable);
+
+Así se definen variables
+
+:root {
+  --darkColor: #15192a;
+  --lightColor: white;
+  --warningColor: red;
+}
+Así se llaman las variables
+
+.btn.warning {
+  background: var(--warningColor);
+}
+Mixins
+Para hacer un mixin en CSS necesitas crear una variable CSS con todas las propiedades de CSS que quieras agregar y aplicarlo con @apply, de la siguiente forma:
+
+:root {
+
+  --button: {
+    border: 1px solid var(--lightColor);
+    border-radius: 5px;
+    background: var(--darckColor);
+    color: var(--lightColor);
+    padding: .5em2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 14px;
+    border-bottom: 5px solid var(--lightColor)
+  };
+}
+Aplicación de estilos
+
+.btn {
+  @apply --button;
+}
+
+--------------------------------------------------------------------
+
+Calc() ya está soportado por la mayoría de los navegadores
+Sirve para realizar operaciones matemáticas con medidas estáticas (px) sólo tenemos que hacer uso de la función calc(), es importante que se ponga.
+.
+Además es posible anidar llamadas a calc() dentro de otras llamadas calc().
+.
+
+Sintaxis
+calc(expresión)
+.
+Las operaciones que permite calc son:
+
++ Suma
+
+- Resta
+
+* Multiplicación. Al menos uno de los argumentos debe ser un <número>.
+/ División. El divisor debe ser un <número>.
+
+-------------------------------------------------------------------------------
+
+
+Para que @custom-media funcione debemos instalar postcss-custom-media. Para ello escribimos en la consola:
+
+npm install postcss-custom-media --save-dev
+Luego vamos a postcss.config.js y agregamos el plugin, y queda asi:
+
+plugins: [
+        
+        require('postcss-apply'),
+        require('postcss-custom-media')({
+            preserve: false,
+        }),
+        require('postcss-preset-env')({
+            autoprefixer: {
+                grid: true,
+                flexbox: false,
+            },
+            preserve: false, 
+            //Valor por defecto de "true". Se asemeja a customProperties en cssnext.
+            //cambiar a false para notar el cambio.
+            calc: false,
+        })
+        
+    ]
+
+postcss-preset-env permite el uso de custom-media sin embargo, es aceptado en el stage 1 de este plugin. Por defecto, si no especificamos el stage, postcss-preset-env tendrá por defecto el stage 2
+
+Para poder especificar el stage debemos tener el código del postcss.config.js de la siguiente manera:
+
+
+module.exports = {
+	plugins: [
+		require('postcss-preset-env')({
+			stage: 1,
+			autoprefixer: {
+				grid: true,
+			},
+			preserve: false,
+		}),
+		require('postcss-apply'),
+	]
+}
+
+@custom-media: Es la manera de personalizar o asignar un alias a los media query. Ejemplos de como asignarlo:
+
+
+@custom-media --extra-small screen and (width < 480px);
+@custom-media --small screen and (width < 768px);
+@custom-media --medium screen and (width >= 768px);
+@custom-media --large screen and (width >= 1024px);
+
+@media (--small) {
+  body {
+    border: 10px solid blue;
+  }
+  .home {
+    height: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 150px;
+    grid-template-areas: "primary"
+                         "sidebar"
+                         "featuring";
+  }
+  .featuring {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+
+  }
+}
+
+----------------------------------------------------------
+
+Imágenes retina con Post CSS - Image-set
+
+La funcion image-set() Genera un media query en el archivo de css que se llevara a produccion, la cual reconocera la densidad de pixeles por pulgada cuadrada del dispositivo y asi eligira la imagen apropiada para la pantalla.
+
+**Nota:**esta funcion debera ser utilizada dentro de la propiedad background-image:
+
+Su sintaxis es asi:
+
+background-image: image-set(url(’"’) densidad);
+
+La densidad se puede ser expresada asi: 1x, 2x, 3x, o dpi
+
+
+
+**background-image: image-set(url imagen / densidad); ** Trabajando para Retina display. Si queremos poner multiples densidades, copiamos la misma sintaxis.
+background-image: image-set(url('../imagen.jpg') 1x, (url('../imagen2.jpg') 2x, (url('../imagen3.jpg') 3x)  se puede poner "3x" o 300dpi
+
+------------------------------------------------------------------------------
+
+COLORES
+
+Para los que siguieron el curso con “PostCSS Preset Env” deben hacer los siguiente:
+
+npm install postcss-color-function
+Requerir la dependencia en su sección de Plugins en el “postcss.config.js”
+require('postcss-color-function'),
+
+Para la función “hwb” deben hacer algo similar.
+
+npm install postcss-color-hwb
+Luego requerir la dependencia en su sección de Plugins en el “postcss.config.js”
+require('postcss-color-hwb'),
+
+para gray
+
+npm install postcss-color-gray --save-dev
+así mismo para se requiere
+
+require("postcss-color-gray"),
+
+HWB (Hue, Whiteness, Blackness).
+
+---------------------------------------------------------------------
+
+Fuentes
+
+Usar system-ui como plan B para utilizar la fuente por defecto del sistema operativo:
+
+font-family: 'Lato', system-ui
+
+--------------------------------------------------------------------------
+
+Selectores Personalizados
+
+PRESTAR ATENCIÓN
+
+para que te funcionen los selectores personalizados primer debes instalar la dependencia con la siguiente comando
+npm install postcss-custom-selectors --save-dev
+
+luego agregar al archivo de configuración postcss.config.js de la siguiente forma
+
+require('postcss-custom-selectors')
+Visualización completa del archivo de configuración
+
+`module.exports = {
+plugins:[
+require(‘autoprefixer’)({
+grid:true,
+
+    }),
+    require('postcss-preset-env')({
+        calc:false
+    }),
+    require('postcss-apply'),
+    require('postcss-custom-media')({
+        preserve: false,
+    }),
+    require('postcss-custom-selectors')
+   
+]
+}`
+
+MUY IMPORTANTE
+
+Prestar mucha atención a los espacios al declarar el **custom selector **en el css
+
+Error
+
+@custom-selector : --checkeable .checkbox-label, .radio-label;
+
+Forma correcta
+
+@custom-selector :--checkeable .checkbox-label, .radio-label;
+
+
+
+CUSTOM-SELECTOR CREADOS:
+
+
+@custom-selector :--checkeable .checkbox-label, .radio-label;
+@custom-selector :--hightlight :hover, :active;
+
+:--checkeable {
+  cursor: pointer;
+  user-select: none;
+  padding: 3px 7px;
+  border: 1px solid color(red b(10%));
+  border-bottom: 3px solid red;
+  color: gray(50);
+  font-size: 12px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  display: inline-block;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+asi se agrupan para darle caraxterísticas a ambos selectores:
+
+:--checkeable:--hightlight {
+  background:red;
+  color: white;
+}
+
+-----------------------------------------------------------------------
+
+SEUDO CLASES
+
+Pseudo Selectores: Nos permiten seleccionar clases de una manera mucho mejor.
+
+:any-link pseudo-class: Nos permite seleccionar cualquier enlace dentro de un selector.
+.myPlaylist :any-link:hover{ transform: scale(1.1)}
+​:matches pseudo-clases: Nos permite seleccionar las coincidencias dentro de un selector.
+​ .myPlaylist-item:matches(:last-child, :nth-of-type(3), :first-child){background: color(red l(70%))}
+​:not pseudo-class: Nos permite seleccionar lo que no coincida con las propiedades que le pase.
+.myPlaylist-item:not(:last-child, :nth-of-type(3), :first-child){background: color(blue l(70%))}
+
+------------------------------------------------------------------------------------
+
+IDENTACIÓN (NESTING)
+
+
+Add PostCSS Nesting to your project:
+npm install postcss-nesting --save-dev
+
+Add the plugin to plugins list:
+
+module.exports = {
+  plugins: [
++   require('postcss-nesting'),
+    require('autoprefixer')
+  ]
+}
+
+-------------------------------------------------------------------------------------
+
+Modulariza tu código con postcss-Imports
+
+Comado
+
+npm install postcss-import
+Enlace
+https://github.com/postcss/postcss-import
+
+Modularizando podemos crear diferentes archivos css para crear clases para nuestro elementos que tendremos guardadas y solo tenemos que importarlas para el proyecto que vallamos a trabajar y hacerles algunos cambios. Por ejemplo: clases para botones, inputs, radio, etc.
+
+------------------------------------------------------------------------------------
+Auto font-face con FontMagician
+  
+Lo que hace el FontMagician es tomar una fuente del font-family que estaba asignando, la lee y empieza a buscar en la base de datos (en este caso google) para traerme la fuente y a parte de eso me crea el font-family para utilizarlo de la manera correcta. Lo que significa que ya no es necesario exportarlo desde ningún link.
+
+Comando:
+
+npm install postcss-font-magician --save-dev
+
+Enlace
+https://github.com/jonathantneal/postcss-font-magician
+
+ require('postcss-font-magician')({
+      variants: {
+        'lato': {
+          '300': ['woff'],
+          '400': [],
+        }
+      }
+
+----------------------------------------------------------------------
+
+Validar CSS con Stylelint
+
+Enlaces:
+
+stylelint para PostCSS: https://github.com/stylelint/stylelint/blob/master/docs/user-guide/postcss-plugin.md
+Config: https://github.com/stylelint/stylelint/blob/master/docs/user-guide/configuration.md
+
+Comando:
+
+npm install stylelint
+
+Como consejo recomiendo asignar esas lineas de comando tan extensas dentro de alias, es mucho mas comodo! 😄
+
+postCSS te permite crear un script dentro del package.json para que solo tengas que correr ese script y te reemplace las lineas de comando extensas
+
+{
+  "scripts": {
+    "build": "postcss src/css/home.css -o dist/css/home.css -w"
+  },
+en la terminal solo corres
+
+npm run build
+
+----------------------------------
+
+Como buenas prácticas usamos un linter de código, y en éste caso queremos validar algunas propiedades o algunas características que tenga nuestro código css, para que siga las líneas de cómo se debería escribir css en nuestro equipo de trabajo. Ponemos las reglas que debemos seguir, p.e:
+
+No usar pixels
+No más de dos espacios limpios
+
+-----------------------------------------------------------------------------------------------
+
+Optimiza CSS para producción con CSSNano
+
+comando :
+
+npm install cssnano
+
+Páginas en la web para comprimir código css:
+
+https://cssnano.co/
+https://csscompressor.com/
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
